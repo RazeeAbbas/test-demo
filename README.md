@@ -1,3 +1,5 @@
+[![pages-build-deployment](https://github.com/RazeeAbbas/test-demo/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/RazeeAbbas/test-demo/actions/workflows/pages/pages-build-deployment)
+
 # test-demo
 devops learning
 <<<<<<< HEAD
