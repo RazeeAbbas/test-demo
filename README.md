@@ -1,5 +1,4 @@
-[![pages-build-deployment](https://github.com/RazeeAbbas/test-demo/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/RazeeAbbas/test-demo/actions/workflows/pages/pages-build-deployment)
-
+[![Portfolio CI](https://github.com/RazeeAbbas/miniportfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/RazeeAbbas/miniportfolio/actions/workflows/ci.yml)
 # test-demo
 devops learning
 <<<<<<< HEAD
