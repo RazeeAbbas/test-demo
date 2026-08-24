@@ -1,4 +1,5 @@
 [![Portfolio CI](https://github.com/RazeeAbbas/miniportfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/RazeeAbbas/miniportfolio/actions/workflows/ci.yml)
+![CI Pipeline](https://github.com/RazeeAbbas/test-demo/actions/workflows/ci.yml/badge.svg)
 # test-demo
 devops learning
 <<<<<<< HEAD
