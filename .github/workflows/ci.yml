@@ -73,3 +73,20 @@ jobs:
           else
             echo "Demo secret is NOT available."
           fi
+
+          
+       # 10. Simulated Deployment
+      - name: Simulated Deployment
+        run: |
+          echo "Starting simulated deployment..."
+          echo "Preparing deployment directory..."
+          
+          mkdir -p deployment
+          
+          echo "Copying application files..."
+          cp -r build/* deployment/
+          
+          echo "Deployment files:"
+          ls -la deployment
+          
+          echo "Simulated deployment completed successfully!"
