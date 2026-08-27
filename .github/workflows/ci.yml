@@ -8,39 +8,62 @@ on:
     branches:
       - main
 
+env:
+  APP_ENV: ${{ vars.APP_ENV }}
+
 jobs:
-  ci:
+
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
+
       # 1. Get repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Install Python
+      # 2. Show environment variable
+      - name: Show environment variable
+        run: |
+          echo "Application environment: $APP_ENV"
+
+      # 3. Check secret availability
+      - name: Check secret availability
+        env:
+          DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
+        run: |
+          if [ -n "$DEMO_SECRET" ]; then
+            echo "Demo secret is available."
+          else
+            echo "Demo secret is missing."
+            exit 1
+          fi
+
+      # 4. Install Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3. Install dependencies
+      # 5. Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      # 4. Linting
+      # 6. Linting
       - name: Run linting
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics || true
 
-      # 5. Validation
+      # 7. Validation
       - name: Validate Python files
         run: |
           python -m compileall .
 
-      # 6. Build
+      # 8. Build
       - name: Build application
         run: |
           mkdir -p build
@@ -51,42 +74,48 @@ jobs:
             cp *.py build/ 2>/dev/null || touch build/app.py
           fi
 
-      # 7. Basic test
+      # 9. Basic test
       - name: Run tests
         run: |
           pytest || true
 
-      # 8. Upload artifact
+      # 10. Upload artifact
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: application-build
           path: build/
 
-      # 9. Check secret availability
-      - name: Check secret availability
-        env:
-          MY_DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
-        run: |
-          if [ -n "$MY_DEMO_SECRET" ]; then
-            echo "Demo secret is available."
-          else
-            echo "Demo secret is NOT available."
-          fi
+  deploy:
+    name: Simulated Deployment
+    needs: build
+    runs-on: ubuntu-latest
 
-          
-       # 10. Simulated Deployment
+    steps:
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: application-build
+          path: build
+
       - name: Simulated Deployment
         run: |
+          echo "======================================"
           echo "Starting simulated deployment..."
-          echo "Preparing deployment directory..."
-          
+          echo "======================================"
+
+          echo "Creating deployment directory..."
           mkdir -p deployment
-          
+
           echo "Copying application files..."
           cp -r build/* deployment/
-          
+
           echo "Deployment files:"
           ls -la deployment
-          
-          echo "Simulated deployment completed successfully!"
+
+          echo "Application environment: $APP_ENV"
+
+          echo "======================================"
+          echo "Simulated deployment completed!"
+          echo "======================================"
