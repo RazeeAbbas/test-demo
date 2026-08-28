@@ -74,10 +74,10 @@ jobs:
             cp *.py build/ 2>/dev/null || touch build/app.py
           fi
 
-      # 9. Basic test
+      # 9. Run Pytest
       - name: Run tests
         run: |
-          pytest || true
+          pytest
 
       # 10. Upload artifact
       - name: Upload build artifact
